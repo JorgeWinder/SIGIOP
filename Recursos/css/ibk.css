@@ -1,0 +1,87 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 27/02/2017, 03:37:50 PM
+    Author     : Jorge Winder
+*/
+
+/* cambio formato de origen */
+
+body{
+    font-family: "Helvetica Neue","Helvetica","Roboto","Arial",sans-serif !important;
+    background: #00953a !important;
+}
+
+.panel-heading{
+    background-color: #0038a5 !important;
+    border-color: #0038a5 !important;
+}
+
+.panel-floating {
+    border-top: 5px solid #0038a5 !important;
+    overflow: hidden !important;
+    box-shadow: 0 2px 15px rgba(0,0,0,0.1) !important;
+}
+
+.form-control{
+    border: 0px solid #ccc !important;   
+}
+
+strong{
+ color: #0038a5;
+}
+
+.btn-primary {
+   /*background-color: #00953a !important;*/    
+   background-color: #0038a5 !important;
+}
+
+.stl-panel{
+    width: 82%; margin: 0 auto;margin-top: 2.5%;    
+}
+
+
+.stl-panel-log{
+    max-width: 350px; margin: 0 auto;
+    border: 2px #ffffff solid;
+/*    height: 350px !important;*/
+    color: #ffffff;
+    background-color: #0038a5;
+    border-radius: 20px 0 20px 0;
+    z-index: 1;
+}
+
+.stl-panel-logo{
+    width: 82%; 
+    margin: 0 auto;
+    margin-top: 1%; 
+    margin-bottom: 3%; 
+    text-align: center
+}
+
+/*.stl-slider{
+    width: 92%; margin: 0 auto;margin-top: 2.5%;  
+    margin-top: -5px; 
+}*/
+
+
+#iniciar :hover , #generar :hover , #comen :hover{
+    color: orange !important;    
+    background-color: white !important;
+    font-size: 14.3px;    
+}
+    
+
+#comen :hover{
+    color: #0038a5 !important;    
+    background-color: white !important;
+    font-size: 14.3px;    
+}
+    
+.popover{
+       color: black !important;
+       width: 200px !important;
+}

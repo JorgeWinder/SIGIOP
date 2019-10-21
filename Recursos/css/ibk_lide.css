@@ -1,0 +1,34 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 27/02/2017, 03:37:50 PM
+    Author     : Jorge Winder
+*/
+
+/* cambio formato de origen */
+
+
+.slider.slider-horizontal {
+width: 99% !important;
+/*margin-left: 10px !important;*/
+}
+
+
+@media (max-width: 600px) {
+    .stl-panel , #pan {
+    width: 95% !important; margin: 0 auto;margin-top: 2.5%;    
+    }
+    
+    .slider.slider-horizontal {
+    width: 92% !important;
+    margin-left: 10px !important;;
+    }
+    
+    .slider.slider-horizontal .slider-tick-label-container {
+    font-size: 9.5px !important;
+    }
+}
+
