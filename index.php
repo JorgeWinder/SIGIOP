@@ -13,12 +13,20 @@ $app->options('/{routes:.+}', function ($request, $response, $args) {
     return $response;
 });
 
+// $app->add(function ($req, $res, $next) {
+//     $response = $next($req, $res);
+//     return $response
+//             ->withHeader('Access-Control-Allow-Origin', '*')
+//             ->withHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers', 'Origin, Accept, Accept-  Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization')
+//             ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+// });
+
 $app->add(function ($req, $res, $next) {
-    $response = $next($req, $res);
-    return $response
-            ->withHeader('Access-Control-Allow-Origin', '*')
-            ->withHeader('Access-Control-Allow-Headers', 'Access-Control-Allow-Headers', 'Origin, Accept, Accept-  Version, Content-Length, Content-MD5, Content-Type, Date, X-Api-Version, X-Response-Time, X-PINGOTHER, X-CSRF-Token,Authorization')
-            ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
+   $response = $next($req, $res);
+   return $response
+           ->withHeader('Access-Control-Allow-Origin', '*')
+           ->withHeader('Access-Control-Allow-Headers', 'X-Requested-With, Content-Type, Accept, Origin, Authorization')
+           ->withHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
 });
 
 
@@ -74,6 +82,10 @@ $app->get('/registrar-pedido-v2',  function(){
 
 $app->get('/registrar-cobranza',  function(){  
    include_once 'Views/registrar-cobranza.php';  
+});
+
+$app->get('/registrar-nota-credito',  function(){  
+   include_once 'Views/registrar-nota-credito.php';  
 });
 
 $app->get('/registrar-movientos-almacen',  function(){  

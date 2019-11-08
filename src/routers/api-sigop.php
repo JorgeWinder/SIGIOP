@@ -1125,7 +1125,8 @@ $resultado = $resultado . "<tr onmouseover='this.style.backgroundColor=\"#fffc6b
 
 $app->get('/api-sigop/pedido/getPedido',  function(Request $request, Response $response) { 
     
-    $idPedido = $request->getParam('idPedido');
+    //$idPedido = $request->getParam("idPedido");
+    $idPedido = $request->getQueryParam('idPedido');
    
    $sql = "SELECT ti.idTienda , ti.NombreTienda , em.RazonSocial as NombreEmpresa , col.idColaborador, CONCAT(Nombres , ' ' , Apellidos) as NombresCol , cl.RucDnICL , cl.RazonSocial, 
 case 
@@ -1143,7 +1144,7 @@ p.NombreProducto , dp.Cantidad , dp.PrecioUnit , dp.PrecioTotal , dp.Desct , pe.
 FROM detallepedido dp , producto p , pedido pe , cliente cl , colaborador col , empresa em , tienda ti
 where pe.idPedido=dp.idPedido and p.idProducto=dp.idProducto and pe.RucDnICL=cl.RucDnICL and col.idColaborador=pe.idColaborador 
 and em.EmpresaRuc=pe.EmpresaRuc and ti.idTienda=pe.idTienda
-and pe.idPedido=$idPedido";
+and pe.idPedido = $idPedido";
    
    try{
        
@@ -1203,6 +1204,7 @@ and pe.idPedido=$idPedido";
    } catch(PDOException $e){
         echo '{"error": {"text": '.$e->getMessage().'}';
    }
+
    
 });
 

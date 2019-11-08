@@ -49,6 +49,19 @@ and open the template in the editor.
 
 			<?php } ?>
 
+			<?php if( $_SESSION["NombreArea"]=="ADMINISTRACIÓN" || $_SESSION["NombreArea"]=="CAJA / COBRANZAS"  || $_SESSION["NombreArea"]=="VENTAS / DESPACHO INT."  || $_SESSION["NombreArea"]=="VENTAS / GALERIA"){ ?>
+
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="glyphicon glyphicon-duplicate" style="font-size: 25pt;"></span>
+					&nbsp&nbsp&nbsp&nbsp<span  style="font-size: 28pt;"> <a href="registrar-nota-credito">Registrar Nota de crédito</a></span>
+					<hr>
+				</div>
+			</div>
+
+			<?php } ?>
+
+
 			<?php if( $_SESSION["NombreArea"]=="ADMINISTRACIÓN" || $_SESSION["NombreArea"]=="CAJA / COBRANZAS" || $_SESSION["NombreArea"]=="VENTAS / GALERIA" || $_SESSION["NombreArea"]=="VENTAS / DESPACHO INT."){ ?>	
 			
 			<div class="row">

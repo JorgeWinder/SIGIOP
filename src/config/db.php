@@ -6,9 +6,11 @@
 
         private $dbhost = 'localhost';
 
-        private $dbuser = 'publifac_userbd';
+        //private $dbuser = 'publifac_userbd';
+        //private $dbpass = 'Publifac2354#';
 
-        private $dbpass = 'Publifac2354#';
+        private $dbuser = 'root';
+        private $dbpass = '';
 
         private $dbname = 'publifac_sigop';
 
@@ -25,7 +27,8 @@
             $dbConnection -> exec("SET CHARACTER SET utf8");
 
             $dbConnection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-
+        
+            
             return $dbConnection;
 
         }
