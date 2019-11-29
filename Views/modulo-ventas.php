@@ -47,7 +47,17 @@ and open the template in the editor.
 				</div>
 			</div>
 
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="glyphicon glyphicon-duplicate" style="font-size: 25pt;"></span>
+					&nbsp&nbsp&nbsp&nbsp<span  style="font-size: 28pt;"> <a href="registrar-nota-credito">Registrar Nota de crédito</a></span>
+					<hr>
+				</div>
+			</div>
+
+			
 			<?php } ?>
+
 
 			<?php if( $_SESSION["NombreArea"]=="ADMINISTRACIÓN" ){ ?>
 			

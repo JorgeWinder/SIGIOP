@@ -21,7 +21,7 @@ and open the template in the editor.
 	<?php require_once "plantillas/cabecera-estilo.html"; ?>
         
         <!--Escript de vista-->
-        <script type="text/javascript" src="<?php echo URL;?>/Views/script/registrar-cobranza.js"></script>
+        <script type="text/javascript" src="<?php echo URL;?>/Views/script/registrar-nota-credito.js"></script>
 
         <script type="text/javascript">
 
@@ -45,7 +45,7 @@ and open the template in the editor.
 
         function PrintFinal() {
             
-            var myWindow = window.open('<?php echo URL;?>/comprobante-print?pedido=' + $('#pedido').val(), 'Imprimir comprobante', 'height=500,width=700');
+            var myWindow = window.open('<?php echo URL;?>/comprobante-print-nc?pedido=' + $('#nc').val() + '&&DocRef=' + $('#pedido').val(), 'Imprimir comprobante', 'height=500,width=700');
             myWindow.onload=function(){ // necessary if the div contain images
 
                 myWindow.focus(); // necessary for IE >= 10
@@ -56,7 +56,11 @@ and open the template in the editor.
         </script>        
         
     </head>
-    <body> <INPUT type="password" name="prompt" />
+    <body> 
+	
+	<form>
+	
+	<INPUT type="password" name="prompt" />
 		<?php require_once "plantillas/menu.html"; ?>        
 
 <div id="myDiv" style="display: none;">
@@ -114,17 +118,35 @@ and open the template in the editor.
 			</div>
 			<div class="row">
 				<div class="col-lg-1"></div>
-				<div class="col-lg-10" style="margin: 70px auto 0px; max-width: 100%;">
+				<div class="col-lg-10" style="margin: 40px auto 0px; max-width: 100%;">
 
 					<!-- Inicio de formulario -->
+
+					<div class="row">
+
+
+						<div class="col-lg-9">
+							
+						</div>
+
+						<div class="col-lg-3">
+							<div class="form-group">					
+					    		<label for="nc">NOTA DE CRÉDITO GENERADA</label>		
+		 						<input id="nc" name='nc' class="form-control" placeholder="" style="width: 100%; height: 60px; background-color: #87ff78; font-size: x-large; text-align: center" type="number" readonly>			
+							</div>
+						</div>
+
+
+					</div>
 					
 
 					<div class="row">
 
+						
 						<div class="col-lg-3">
 							<div class="form-group">					
 					    		<label for="pedido">PEDIDO NÚMERO :</label>		
-		 						<input id="pedido" class="form-control" placeholder="PEDIDO" style="width: 100%; background-color: #ffed9e;" type="text">			
+		 						<input id="pedido" name='pedido' class="form-control" placeholder="INGRESE PEDIDO" style="width: 100%; background-color: #ffed9e;" type="number">			
 							</div>
 						</div>
 
@@ -132,16 +154,16 @@ and open the template in the editor.
 							
 							<div class="form-group">					
 					    		<label for="exampleInputName2">RUC / DNI :</label>		
-                                                        <input id="dni" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">			
+                                    <input id="dni" name='dni' readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">			
 							</div>
 						</div>
 
-						<div class="col-lg-5">
+						<div class="col-lg-6">
 							<div class="form-group">
 								<label for="exampleInputName2">CLIENTE :</label>
 								<div class="input-group" >
 									<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon glyphicon-user" aria-hidden="true"></span></span>	
-                                                                        <input id="cliente" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
+                                        <input id="cliente" name='cliente' readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
 									
  								</div>
 								 
@@ -150,11 +172,11 @@ and open the template in the editor.
 						</div>
 
 
-						<div class="col-lg-1" style="padding: 25px 10px 0 0;">
+						<!-- <div class="col-lg-1" style="padding: 25px 10px 0 0;">
 							<div class="form-group">					
 								<button id="vercli" type="submit" class="btn btn-info" >Ver datos</button>  									
 							</div>
-						</div>
+						</div> -->
 
 
 
@@ -167,8 +189,8 @@ and open the template in the editor.
 						<div class="col-lg-4">
 							<div class="form-group">					
 					    		<label for="exampleInputName2">PEDIDO ATENDIDO POR :</label>		
-		 						<input id="atendido" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
-		 						<input type="hidden" id="idColaborador" value="">			
+		 						<input id="atendido" name='atendido' readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
+		 						<input type="hidden" id="idColaborador" name="idColaborador" value="">			
 							</div>
 						</div>
 						<div class="col-lg-5">
@@ -176,18 +198,19 @@ and open the template in the editor.
 								<label for="exampleInputName2">TIENDA DE :</label>
 								<div class="input-group" >
 									<span class="input-group-addon" id="sizing-addon2"><span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span></span>	
-		 							<input id="nombretienda" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
-		 							<input type="hidden" id="idTienda" value="">	
+		 							<input id="nombretienda" name="nombretienda" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">
+		 							<input type="hidden" id="idTienda" name="idTienda" value="">	
  								</div> 									
 							</div>
 
 						</div>
                                             
-                                                <div class="col-lg-3 text-left ">
+                        <div class="col-lg-3 text-left ">
 							
 							<div class="form-group">					
 					    		<label for="exampleInputName2">ESTADO DE PEDIDO :</label>		
-                                                        <input id="estado" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">			
+									<input id="estado" name="estado" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">			
+									<input type="hidden" id="EstadoPedidoID" name="EstadoPedidoID" value="">
 							</div>
 						</div>
 
@@ -202,8 +225,8 @@ and open the template in the editor.
 						</div>
 						<div class="col-lg-5">
 							<div class="form-group">
-								<input id="empresa" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">		
-								 									
+								<input id="empresa" name="empresa" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="text" value="">		
+								<input type="hidden" id='EmpresaRuc' name="EmpresaRuc">						
 							</div>
 
 
@@ -213,7 +236,7 @@ and open the template in the editor.
 							
 							<div class="form-group">					
 					    		<label for="exampleInputName2">MONEDA :</label>		
-                                                        <input id="nombres" readonly="true" class="form-control" placeholder="" style="width: 100%;background-color: #ccffd7" type="text" value="SOLES">			
+                                                        <input id="moneda" readonly="true" class="form-control" placeholder="" style="width: 100%;background-color: #ccffd7" type="text" value="SOLES">			
 							</div>
 						</div>                                            
                                             
@@ -228,16 +251,16 @@ and open the template in the editor.
 						<div class="col-lg-5">
 							<div class="form-group">								
 								<div class="form-group">
-								<input id="EstadoCobro" class="form-control" readonly="true" placeholder="" style="width: 100%; background-color: #ebff96;" type="text" value="">	
+								<input id="EstadoCobro" name='EstadoCobro' class="form-control" readonly="true" placeholder="" style="width: 100%; background-color: #ebff96;" type="text" value="">	
+								<input type="hidden" id='EstadoCobroID' name="EstadoCobroID">
 								</div>		
 							</div>										    				 					
 						</div>
                                             
-                                                <div class="col-lg-3 text-left ">
-							
+                        <div class="col-lg-3 text-left ">
 							<div class="form-group">					
 					    		<!--<label for="exampleInputName2">VALOR CAMBIO:</label>-->		
-                                                        <input id="nombres" readonly="true" class="form-control" placeholder="" style="width: 100%;background-color: #ccffd7;" type="text" value="1.00">			
+                                    <input id="vcambio" readonly="true" class="form-control" placeholder="" style="width: 100%;background-color: #ccffd7;" type="text" value="1.00">			
 							</div>
 						</div>                                            
 
@@ -255,14 +278,20 @@ and open the template in the editor.
                             <br>
                             
                                         <div class="form-group">
-                                            <table id="tablapedido" class="table table-striped">
+
+                                            <!-- <table id="tablapedido" name="tablapedido" class="table table-striped">
                                                 <tr><td width="10">ID</td><td width="450">PRODUCTO</td><td width="100">CANTIDAD</td><td style="width: 11%">P.UNIT</td><td style="width: 11%">P.TOTAL</td><td style="width: 9%">DESCUENTO</td><td style="width: 8%"></td><td></td><td></td><td></td></tr>                                                
-                                                <!-- <tr><td><label class='control-label'>1</label></td><td><input id='Nombre1' type='text' class='form-control' readonly="true" value="PRODUCTO 1"></td><td><input class="form-control" type="number" required maxlength="2" readonly="true" value="1"></td><td><input class="form-control" value="1.50" readonly="true"></td><td><input class="form-control" value="1.50" readonly="true"></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                                <tr><td><label class='control-label'>2</label></td><td><input id='Nombre1' type='text' class='form-control' readonly="true" value="PRODUCTO 2"></td><td><input class="form-control" type="number" required maxlength="2" readonly="true" value="1"></td><td><input class="form-control" value="1.50" readonly="true"></td><td><input class="form-control" value="1.50" readonly="true"></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                                <tr><td><label class='control-label'>3</label></td><td><input id='Nombre1' type='text' class='form-control' readonly="true" value="PRODUCTO 3"></td><td><input class="form-control" type="number" required maxlength="2" readonly="true" value="1"></td><td><input class="form-control" value="1.50" readonly="true"></td><td><input class="form-control" value="1.50" readonly="true"></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                                <tr><td><label class='control-label'>4</label></td><td><input id='Nombre1' type='text' class='form-control' readonly="true" value="PRODUCTO 4"></td><td><input class="form-control" type="number" required maxlength="2" readonly="true" value="1"></td><td><input class="form-control" value="1.50" readonly="true"></td><td><input class="form-control" value="1.50" readonly="true"></td><td></td><td></td><td></td><td></td><td></td></tr>
-                                                <tr><td><label class='control-label'>5</label></td><td><input id='Nombre1' type='text' class='form-control' readonly="true" value="PRODUCTO 5"></td><td><input class="form-control" type="number" required maxlength="2" readonly="true" value="1"></td><td><input class="form-control" value="1.50" readonly="true"></td><td><input class="form-control" value="1.50" readonly="true"></td><td></td><td></td><td></td><td></td><td></td></tr> -->
-                                            </table>
+                            
+											</table> -->
+											
+											<table id="tablapedido" name="tablapedido" class="table table-striped">
+												<thead>
+													<tr><td width="10">ID</td><td width="450">PRODUCTO</td><td width="100">CANTIDAD</td><td style="width: 11%">P.UNIT</td><td style="width: 11%">P.TOTAL</td><td style="width: 9%">DESCUENTO</td><td style="width: 8%"></td><td style="width: 8%"></td></tr>
+												</thead>
+												<tbody>
+													
+												</tbody>
+											</table>
 
                                             <table id="tablapie" class="table table-striped">
                                                 <!-- <tr><td width="10"></td><td width="420"></td><td width="100"></td><td style="width: 8%;padding-top: 17px;">TOTAL : </td><td style="width: 11%"><input id="total" class="form-control" value="0.00" readonly="true"></td><td style="width: 9%"></td><td style="width: 8%"></td><td></td><td></td><td></td>
@@ -272,18 +301,18 @@ and open the template in the editor.
                                                 	
                                                 	<!-- <td width="80" style="text-align: center;padding-top: 15px;">PAGO :</td> -->
                                                 	<td width="30" style="text-align: right;padding-top: 15px;"><label>EFECTIVO</label></td>
-                                                	<td width="100"><input id="MontoEfectivo" class="form-control" value="0.00"></td>
+                                                	<td width="100"><input id="MontoEfectivo" name="MontoEfectivo" class="form-control" value="0.00"></td>
                                                 	<td width="40" style="text-align: right;padding-top: 15px;"><label>DEPOSITO</label></td>
                                                 	<td width="100">                                                		
-                                                		<input id="MontoDeposito" class="form-control" value="0.00">
+                                                		<input id="MontoDeposito" name="MontoDeposito" class="form-control" value="0.00">
                                                 	</td>
                                                     <td width="40" style="text-align: right;padding-top: 15px;"><label>SALDO</label></td>
                                                     <td width="100">                                                        
-                                                        <input id="MontoSaldo" class="form-control" value="0.00">
+                                                        <input id="MontoSaldo" name="MontoSaldo" class="form-control" value="0.00" readonly>
                                                     </td>
                                                 	<td style="width: 8%;padding-top: 15px;">TOTAL : </td>
                                                 	<td style="width: 11%">
-                                                		<input id="total" class="form-control" value="0.00" readonly="true" value="0.00">
+                                                		<input id="total" name="total" class="form-control" value="0.00" readonly="true" value="0.00">
                                                 	</td>
                                                 	<td style="width: 22%"></td>
                                                 </tr>
@@ -299,15 +328,13 @@ and open the template in the editor.
                             <br>
 					<div class="row text-right">
 						<div class="col-lg-10">
-                                                    <button id="btnRegistrarCobro" type="submit" class="btn btn-success" style="height: 50px;">REGISTRAR COBRANZA</button>
+													<button id="btnRegistrarNC" name='btnRegistrarNC' type="submit" class="btn btn-success" style="height: 50px;" disabled>REGISTRAR NOTA DE CRÉDITO</button>
+													<button id="btnImprimirCobro" type="button" onclick="PrintFinal()" class="btn btn-primary" style="height: 50px;" disabled>IMPRIMIR COMPROBANTE</button>
 
-                                                    <button id="btnPedidoPorCob" type="submit" class="btn btn-warning" style="height: 50px;">PEDIDO POR COBRAR</button>
-
-
+                                                <!-- <button id="btnPedidoPorCob" type="submit" class="btn btn-warning" style="height: 50px;">PEDIDO POR COBRAR</button>
                                                     <button id="btnAnularCobro" type="submit" class="btn btn-danger" style="height: 50px;" onclick="AnularComprobante()">ANULAR COBRANZA</button>
-                                                    
-
-													<button id="btnImprimirCobro" type="button" onclick="PrintFinal()" class="btn btn-primary" style="height: 50px;">IMPRIMIR COMPROBANTE</button>
+													 
+												-->
 
 						</div>
 						
@@ -323,7 +350,10 @@ and open the template in the editor.
 			
 		</div> 
 
-		
+	
+
+	
+	</form>
         
     </body>
 </html>

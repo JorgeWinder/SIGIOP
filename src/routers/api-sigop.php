@@ -624,6 +624,8 @@ and date(mov.FechaMovimiento)>='$FechaInicio' and date(mov.FechaMovimiento)<='$F
 
 $app->post('/api-sigop/pedido/add', function(Request $request, Response $response){
 
+    $TipoComprobante = $request->getParam('TipoComprobante'); 
+    $idPedido_ref = $request->getParam('pedido'); 
 
     $RucDnICL = $request->getParam('RucDnICL');
     $idTienda = $request->getParam('idTienda');
@@ -642,8 +644,11 @@ $app->post('/api-sigop/pedido/add', function(Request $request, Response $respons
 
     $Nota = $request->getParam('Nota');
 
-
-    $sql = "INSERT INTO pedido (RucDnICL, idTienda, idColaborador, FechaPedido , FechaEntrega, EmpresaRuc, EstadoPedido, ValoTipoCambio, MontoEfectivo, MontoDeposito, EstadoCobro, EstadoDespacho, Nota, MontoSaldo, Correlativo) VALUES ('$RucDnICL', '$idTienda', '$idColaborador', CURRENT_TIMESTAMP , '$FechaEntrega', '$EmpresaRuc', '$EstadoPedido', '$ValoTipoCambio', '$MontoEfectivo', '$MontoDeposito', '$EstadoCobro', '$EstadoDespacho', '$Nota' , '$MontoSaldo', Correlativo($idTienda) )";
+    if ($TipoComprobante=='NC') {
+        $sql = "INSERT INTO pedido (RucDnICL, idTienda, idColaborador, FechaPedido , FechaEntrega, EmpresaRuc, EstadoPedido, ValoTipoCambio, MontoEfectivo, MontoDeposito, EstadoCobro, EstadoDespacho, Nota, MontoSaldo, Correlativo, TipoComprobante, idPedido_ref) VALUES ('$RucDnICL', '$idTienda', '$idColaborador', CURRENT_TIMESTAMP , '$FechaEntrega', '$EmpresaRuc', '$EstadoPedido', '$ValoTipoCambio', '$MontoEfectivo', '$MontoDeposito', '$EstadoCobro', '$EstadoDespacho', '$Nota' , '$MontoSaldo', Correlativo($idTienda), '$TipoComprobante', $idPedido_ref )";
+    }else{
+        $sql = "INSERT INTO pedido (RucDnICL, idTienda, idColaborador, FechaPedido , FechaEntrega, EmpresaRuc, EstadoPedido, ValoTipoCambio, MontoEfectivo, MontoDeposito, EstadoCobro, EstadoDespacho, Nota, MontoSaldo, Correlativo, TipoComprobante) VALUES ('$RucDnICL', '$idTienda', '$idColaborador', CURRENT_TIMESTAMP , '$FechaEntrega', '$EmpresaRuc', '$EstadoPedido', '$ValoTipoCambio', '$MontoEfectivo', '$MontoDeposito', '$EstadoCobro', '$EstadoDespacho', '$Nota' , '$MontoSaldo', Correlativo($idTienda), '$TipoComprobante' )";
+    }
 
     try{
         // Get DB Object
@@ -668,6 +673,9 @@ $app->post('/api-sigop/pedido/add', function(Request $request, Response $respons
 
 
 });
+
+
+
 
 $app->post('/api-sigop/pedido/update', function(Request $request, Response $response){
 
@@ -823,7 +831,7 @@ $app->get('/api-sigop/pedido/getVentas',  function(Request $request, Response $r
     $idTienda = $request->getParam('idTienda');
    
 
-$sql = "SELECT p.idPedido , p.Correlativo , p.FechaPedido , p.RucDnICL , cl.RazonSocial , 
+$sql = "SELECT p.idPedido , p.Correlativo, p.TipoComprobante , p.FechaPedido , p.RucDnICL , cl.RazonSocial , 
 case 
     when (select count(*) from detallepedido where idPedido=p.idPedido)=1 then pro.NombreProducto 
     when (select count(*) from detallepedido where idPedido=p.idPedido)>1 then 'INGRESOS VARIOS' 
@@ -869,7 +877,7 @@ group by p.idPedido , p.RucDnICL , cl.RazonSocial , p.EstadoCobro , p.MontoEfect
 
                 $conta = $conta + 1;
                 $idPedido=$row->idPedido;
-                $resultado = $resultado . "<tr><td style='width: 70px;'>" . $row->idPedido . " - " . $row->Correlativo . "</td><td style='width: 70px;font-size: 7pt;'>" . $row->FechaPedido . "</td><td style='width: 90px;'>" . $row->RucDnICL . "</td><td style='width: 250px;'>" . $row->RazonSocial . "</td><td style='width: 250px;'>" . $row->Nomproducto . "</td><td style='width: 100px;'>" . $row->EstadoCobro . "</td><td style='width: 100px;'>" . $row->Cant . "</td><td style='width: 100px;'>" . $row->MontoEfectivo . "</td><td style='width: 100px;'>" . $row->MontoDeposito . "</td><td style='width: 100px;'>" . $row->MontoSaldo . "</td><td style='width: 100px;'><b>" . $row->PrecioTotal . "</b></td><td style='width: 100px;'>" . $row->Desct . "</td></tr>";
+                $resultado = $resultado . "<tr><td style='width: 70px;'>" . $row->idPedido . " - " . $row->Correlativo . "</td><td style='width: 30px;'>" . $row->TipoComprobante . "</td><td style='width: 70px;font-size: 7pt;'>" . $row->FechaPedido . "</td><td style='width: 90px;'>" . $row->RucDnICL . "</td><td style='width: 250px;'>" . $row->RazonSocial . "</td><td style='width: 250px;'>" . $row->Nomproducto . "</td><td style='width: 100px;'>" . $row->EstadoCobro . "</td><td style='width: 100px;'>" . $row->Cant . "</td><td style='width: 100px;'>" . $row->MontoEfectivo . "</td><td style='width: 100px;'>" . $row->MontoDeposito . "</td><td style='width: 100px;'>" . $row->MontoSaldo . "</td><td style='width: 100px;'><b>" . $row->PrecioTotal . "</b></td><td style='width: 100px;'>" . $row->Desct . "</td></tr>";
 
             }
 
@@ -1198,6 +1206,103 @@ and pe.idPedido = $idPedido";
             
         }else{
              echo '{ "Respuesta" : [{ "Filas" : 0 }]}';    
+        }
+       
+       
+   } catch(PDOException $e){
+        echo '{"error": {"text": '.$e->getMessage().'}';
+   }
+
+   
+});
+
+
+
+
+$app->get('/api-sigop/pedido/getPedidoNC',  function(Request $request, Response $response) { 
+    
+    //$idPedido = $request->getParam("idPedido");
+    $idPedido = $request->getQueryParam('idPedido');
+   
+   $sql = "SELECT ti.idTienda , ti.NombreTienda , em.EmpresaRuc , em.RazonSocial as NombreEmpresa , col.idColaborador, CONCAT(Nombres , ' ' , Apellidos) as NombresCol , cl.RucDnICL , cl.RazonSocial, 
+   pe.EstadoPedido as EstadoPedidoID,
+case 
+when pe.EstadoPedido='A' then 'ANULADO'
+when pe.EstadoPedido='R' then 'PEDIDO REGISTRADO' 
+end as EstadoPedido,
+    pe.EstadoCobro as EstadoCobroID,
+case 
+when pe.EstadoCobro='P' then 'PENDIENTE DE COBRO' 
+when pe.EstadoCobro='C' then 'CANCELADO' 
+when pe.EstadoCobro='A' then 'ANULADO' 
+when pe.EstadoCobro='' then 'A LA ESPERA DE COBRANZA' 
+end as EstadoCobro,
+dp.idPedido , p.idProducto , 
+p.NombreProducto , dp.Cantidad , dp.PrecioUnit , dp.PrecioTotal , dp.Desct , pe.MontoEfectivo , pe.MontoDeposito , pe.MontoSaldo 
+FROM detallepedido dp , producto p , pedido pe , cliente cl , colaborador col , empresa em , tienda ti
+where pe.idPedido=dp.idPedido and p.idProducto=dp.idProducto and pe.RucDnICL=cl.RucDnICL and col.idColaborador=pe.idColaborador 
+and em.EmpresaRuc=pe.EmpresaRuc and ti.idTienda=pe.idTienda
+and pe.idPedido = $idPedido";
+   
+   try{
+       
+        // Get DB Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+        $stmt = $db->query($sql);
+        $CategoriaProducto = $stmt->fetchAll(PDO::FETCH_OBJ);
+        $db = null;
+        
+        if(count($CategoriaProducto)>0){            
+            
+            $resultado="";
+            $conta=0;
+
+            foreach ($CategoriaProducto as  $row) {
+
+                $conta = $conta + 1;
+
+                $idTienda=$row->idTienda;
+                $NombreTienda=$row->NombreTienda;
+                $RucDnICL=$row->RucDnICL;
+                $RazonSocial=$row->RazonSocial;
+                $idColaborador=$row->idColaborador;
+                $NombresCol=$row->NombresCol;
+                $EstadoPedidoID=$row->EstadoPedidoID;
+                $EstadoPedido=$row->EstadoPedido;
+                $EstadoCobroID=$row->EstadoCobroID;
+                $EstadoCobro=$row->EstadoCobro;
+                $EmpresaRuc=$row->EmpresaRuc;
+                $NombreEmpresa=$row->NombreEmpresa;
+
+                $MontoEfectivo=$row->MontoEfectivo;
+                $MontoDeposito=$row->MontoDeposito;
+                $MontoSaldo=$row->MontoSaldo;                
+
+                $resultado = $resultado . "<tr><td><label class='control-label'>" . $conta . "</label></td><td><input id='idProducto" . $conta . "' type='hidden' value='" . $row->idProducto . "'><input id='NombreProducto" . $conta . "' type='text' class='form-control' readonly='true' value='" . $row->NombreProducto . "'></td><td><input id='Cantidad" . $conta . "' class='form-control' type='text' value='" . $row->Cantidad . "'></td><td><input id='PrecioUnit" . $conta . "' class='form-control' value='" . $row->PrecioUnit . "' readonly='true'></td><td><input id='PrecioTotal" . $conta . "' class='form-control' value='" . $row->PrecioTotal . "' readonly='true'></td><td>  <input id='Desct" . $conta . "' type='text' class='form-control'  value='" . $row->Desct . "' style='width: 81px; margin-right: 10px;' disabled> </td><td> <button type='button' class='btn btn-danger btnEliminar' onclick=''>Eliminar</button> </td></tr>"; 
+
+            }
+
+            echo '{ "Respuesta" : [{ "idTienda" : "' . $idTienda .'" , "NombreTienda" : "' . $NombreTienda .'" , 
+            "RucDnICL" : "' . $RucDnICL .'" , 
+            "RazonSocial" : "' . $RazonSocial .'" , 
+            "idColaborador" : "' . $idColaborador .'" , 
+            "NombresCol" : "' . $NombresCol .'" , 
+            "EstadoPedidoID" : "' . $EstadoPedidoID .'" , 
+            "EstadoPedido" : "' . $EstadoPedido .'" , 
+            "EstadoCobroID" : "' . $EstadoCobroID .'" , 
+            "EstadoCobro" : "' . $EstadoCobro .'" , 
+            "EmpresaRuc" : "' . $EmpresaRuc .'" ,
+            "NombreEmpresa" : "' . $NombreEmpresa .'" ,
+            "MontoEfectivo" : "' . $MontoEfectivo .'" ,
+            "MontoDeposito" : "' . $MontoDeposito .'" ,             
+            "MontoSaldo" : "' . $MontoSaldo .'" ,             
+            "Filas" : ' . $conta .' ,             
+            "detalle" : "' . $resultado .'" }]}';
+            
+        }else{
+             echo '{ "Respuesta" : []}';    
         }
        
        

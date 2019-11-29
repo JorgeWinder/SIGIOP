@@ -236,7 +236,7 @@ function RegistrarPedido(){
                                     $.ajax({
                                     type: "POST",
                                     url: './api-sigop/pedido/add',
-                                    data:  {RucDnICL: $("#idcliente").val() , idTienda: $("#idtienda").val() , idColaborador: $("#colaborador").val() , FechaEntrega: $("#fechaentrega").val() , EmpresaRuc: $("#empresa option:selected").attr("value") , EstadoPedido: estado , MontoEfectivo : $("#MontoEfectivo").val() , MontoDeposito : $("#MontoDeposito").val() , Nota: $("#nota").val() , MontoSaldo: $("#MontoSaldo").val() },
+                                    data:  {RucDnICL: $("#idcliente").val() , idTienda: $("#idtienda").val() , idColaborador: $("#colaborador").val() , FechaEntrega: $("#fechaentrega").val() , EmpresaRuc: $("#empresa option:selected").attr("value") , EstadoPedido: estado , MontoEfectivo : $("#MontoEfectivo").val() , MontoDeposito : $("#MontoDeposito").val() , Nota: $("#nota").val() , MontoSaldo: $("#MontoSaldo").val() , TipoComprobante: 'NP' },
                                     success: function (response) {
                                                     var obj = $.parseJSON(response);                                       
                                                     $("#pedido").val(obj.Respuesta[0].Id);

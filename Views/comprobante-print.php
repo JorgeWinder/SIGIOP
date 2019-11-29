@@ -5,6 +5,12 @@ To change this template file, |choose Tools | Templates
 and open the template in the editor.
 -->
 
+<?php  
+
+    session_start(); 
+
+ ?>
+
 <html>
     <head>
         <meta charset="UTF-8">
@@ -106,13 +112,18 @@ function ConsultarPedido(idPedido){
             <br>
             AV. ISABEL LA CATOLICA NRO. 1100 URB. EL PORVENIR LIMA - LIMA - LA VICTORIA | RUC : 20601871387
             <br><br>
-            <b>SERIE: -</b>
+            <!-- <b>SERIE: -</b> -->
             <br>
             <b><span style="font-size: 18pt;">NOTA DE PEDIDO: <label id='idpedido'></label></span></b>
             <br>
             FECHA: <label id='fecha'></label>
             <br>
-            CAJERO(A): ---
+            CAJERO(A): <label id='Cajero'><?php echo $_SESSION['Nombres'];?></label>
+            <br>
+            <br>
+            VENDEDOR: <label id='atendido'></label>
+            <br>
+            TIENDA: <label id='nombretienda'></label>
             <br>
             <br>
             RUC / DNI: <label id='dni'></label> 

@@ -204,7 +204,7 @@ and open the template in the editor.
 								<hr>
 
 								<table style="width: 100%;font-size: 9.0pt;">
-									<tr><td style="width: 70px;">PEDIDO</td><td style="width: 70px;">FECHA</td><td style="width: 90px;">DNI / RUC</td><td style="width: 350px;">NOMBRE / RAZON SOCIAL</td><td style="width: 250px;">CONCEPTO</td><td style="width: 100px;">ESTADO COBRANZA</td><td style="width: 100px;">CANT.</td><td style="width: 100px;">EFECTIVO</td><td style="width: 100px;">DEPÓSITO</td><td style="width: 100px;">SALDO</td><td style="width: 100px;">P.TOTAL</td><td style="width: 100px;">DESCT.</td></tr>
+									<tr><td style="width: 70px;">PEDIDO</td><td style="width: 30px;">TC</td><td style="width: 70px;">FECHA</td><td style="width: 90px;">DNI / RUC</td><td style="width: 350px;">NOMBRE / RAZON SOCIAL</td><td style="width: 250px;">CONCEPTO</td><td style="width: 100px;">ESTADO COBRANZA</td><td style="width: 100px;">CANT.</td><td style="width: 100px;">EFECTIVO</td><td style="width: 100px;">DEPÓSITO</td><td style="width: 100px;">SALDO</td><td style="width: 100px;">P.TOTAL</td><td style="width: 100px;">DESCT.</td></tr>
 									
 								</table>
 
@@ -249,7 +249,7 @@ and open the template in the editor.
 									<tr>
 										<td class="text-left" style="padding-top: 40px;font-size: 8.5pt;">
 											<hr>
-											<span>SIGOP - SISTEMA INTEGRADO DE GESTIÓN Y OPERRACIONES PUBLIFACTORY   v1.0</span>
+											<span>SIGOP - SISTEMA INTEGRADO DE GESTIÓN Y OPERACIONES PUBLIFACTORY   v1.0</span>
 										</td>
 									</tr>
 

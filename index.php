@@ -49,6 +49,10 @@ $app->get('/comprobante-print',  function(){
    include_once 'Views/comprobante-print.php';  
 });
 
+$app->get('/comprobante-print-nc',  function(){  
+   include_once 'Views/comprobante-print-nc.php';  
+});
+
 $app->get('/vista-pedido',  function(){  
    include_once 'Views/vista-pedido.php';  
 });
