@@ -26,6 +26,8 @@ and open the template in the editor.
         
     </head>
     <body>
+
+		<form>
 		<?php require_once "plantillas/menu.html"; ?>                             
         
 
@@ -52,7 +54,7 @@ and open the template in the editor.
 						<div class="col-lg-3">
 							<div class="form-group">					
 					    		<label for="exampleInputName2">PEDIDO NÚMERO :</label>		
-		 						<input id="pedido" class="form-control" readonly="true" placeholder="PEDIDO" style="width: 100%; background-color: #ffed9e;" type="text">	
+		 						<input id="pedido" name='idPedido' class="form-control" readonly="true" placeholder="PEDIDO" style="width: 100%; background-color: #ffed9e;" type="text">	
 								<input type="hidden" id="colaborador" value="<?php echo $_SESSION['idColaborador']; ?>">
 
 							</div>
@@ -80,11 +82,36 @@ and open the template in the editor.
 									</div>
 
 									
-									<div id="panelnotas" class="container text-right" style="position: fixed;width: 540px;z-index: 100;height: 250px;background: #293a4a;padding-top: 5px;margin-top: 40px;display: none;">
+									<div id="panelnotas" class="container text-right" style="position: fixed;width: 540px;z-index: 100;height: 150px;background: #293a4a;padding-top: 5px;margin-top: 40px;display: none;">
 										<span class="badge badge-info" style="position: relative;top: 0;margin-bottom: 5px;"> <a id="cerrar" href="javascrpit:void()" onclick="VistaPanelNotas()" style="color: white"> X CERRAR</a> </span>
 										<div class="form-group">
 											<textarea id="nota" placeholder="ESCRIBE UNA NOTA U OBSERVACIÓN PARA ESTE PEDIDO" class="form-control" maxlength="500" style="border: 1px solid #00953a !important;" rows="9"></textarea>	
 										</div>										
+									</div>
+
+									<div id="panelentrega" class="container text-right" style="position: fixed;width: 540px;z-index: 100;height: 300px;background: #293a4a;padding-top: 5px;margin-top: 40px;display: none;">
+										<span class="badge badge-info" style="position: relative;top: 0;margin-bottom: 5px;"> <a id="cerrardestino" style="color: white"> X CERRAR</a> </span>
+										<div class="form-group">
+											<input type="hidden" name="EstadoEntrega">
+											<input class="form-control" type="text" name="Encargado" id="Encargado" placeholder='Nombre de encargado de entrega'>
+										</div>
+										<br>
+										<br>
+										<div class="form-group">
+											<input class="form-control" type="text" name="Receptor" id="Receptor" placeholder='¿Quién recibirá el pedido?'>
+										</div>
+										
+										<br>
+										<br>
+										<div class="form-group">
+											<textarea id="Destino" name="Destino" placeholder="ESCRIBE LA DIRECIÓN Y/O DESTINO DEL PEDIDO" class="form-control" maxlength="140" style="border: 1px solid #00953a !important;" rows="4"></textarea>	
+											<br><br>
+											
+										<br>
+											<button id="btnGuardarEntrega" type="button" class="btn btn-warning" style="height: 50px;width: 100%; margin-top: 10px;">GRABAR DATOS PARA ENTREGA</button>											
+										
+										</div>	
+								
 									</div>
 
 									<div id="panelacceso" class="container text-right" style="position: fixed;width: 540px;z-index: 100;top: 50px;background: #293a4a;padding-top: 5px;margin-top: 40px;display: none;">
@@ -106,9 +133,9 @@ and open the template in the editor.
 
 						<div class="col-lg-4 text-left " style="padding-top: 25px;">
 							
-							<button type="submit" class="btn btn-default" onclick="VistaPanelBusqueda()">Buscar</button>
-							<button id="nuevocli" type="submit" class="btn btn-success">Nuevo cliente</button>
-							<button id="vercli" type="submit" class="btn btn-info">Ver datos</button>
+							<button type="button" class="btn btn-default" onclick="VistaPanelBusqueda()">Buscar</button>
+							<button id="nuevocli" type="button" class="btn btn-success">Nuevo cliente</button>
+							<button id="vercli" type="button" class="btn btn-info">Ver datos</button>
 						</div>
 					</div>
 				
@@ -166,17 +193,20 @@ and open the template in the editor.
 
 					</div>
 
-					<div class="row">			
-						<div class="col-lg-4 text-right" style="padding-top: 5px;">											
-					    		
+					<div class="row">	
+
+						<div class="col-lg-6 text-right" style="padding-top: 10px;">					
+					    		<label for="exampleInputName2">DESPACHO A DOMICILIO  :</label>		
+						</div>		
+						<div class="col-lg-1 text-left" style="padding-top: 5px;">											
+								<input type="checkbox" name="despacho" id="despacho" style="width:30px; height:30px;">
 						</div>
 
-						<div class="col-lg-4 text-right" style="padding-top: 5px;">
-												
+						<div class="col-lg-2 text-right" style="padding-top: 10px;">	
 					    		<label for="exampleInputName2">ESTADO DE PEDIDO :</label>		
 		 					
 						</div>
-						<div class="col-lg-4">
+						<div class="col-lg-3">
 							<div class="form-group">
 								<input id="pedidostd" class="form-control" readonly="true" placeholder="" style="width: 100%;" type="text" value="">	
 							</div>
@@ -282,10 +312,10 @@ and open the template in the editor.
 						<div class="col-lg-11">
 
 
-													<button id="btnAgregarNota" type="submit" class="btn btn-default" onclick="VistaPanelNotas()" style="height: 50px;">OBSERVACIONES DE DESPACHO</button>       
+													<button id="btnAgregarNota" type="button" class="btn btn-default" onclick="VistaPanelNotas()" style="height: 50px;">OBSERVACIONES DE DESPACHO</button>       
 
-                                                    <button id="btnRegistrarPedido" type="submit" class="btn btn-success" style="height: 50px;">REGISTRAR PEDIDO</button>                                                                                                                        
-													<button id="btnNuevo" type="submit" class="btn btn-warning" style="height: 50px;">NUEVO PEDIDO</button>
+                                                    <button id="btnRegistrarPedido" type="button" class="btn btn-success" style="height: 50px;">REGISTRAR PEDIDO</button>                                                                                                                        
+													<button id="btnNuevo" type="button" class="btn btn-warning" style="height: 50px;">NUEVO PEDIDO</button>
 
 													<br><br>
                                                     
@@ -305,6 +335,6 @@ and open the template in the editor.
 		</div> 
 
 	
-        
+        </form>
     </body>
 </html>

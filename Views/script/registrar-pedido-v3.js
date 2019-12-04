@@ -124,6 +124,9 @@
                                         
  });
 
+
+ 
+
  function VistaPanelBusqueda(){
 
     if($("#busqueda").css("display")=="block"){
@@ -157,7 +160,9 @@
 
  }
 
- 
+
+
+
  function VistaPanelAcceso(){
 
     if($("#panelacceso").css("display")=="block"){
@@ -242,6 +247,24 @@ function RegistrarPedido(){
                                                     $("#pedido").val(obj.Respuesta[0].Id);
                                                     RegistrarDetallePedido(obj.Respuesta[0].Id);                                       
                                                     $("#btnRegistrarPedido").prop("disabled","true");
+
+                                                    const $despacho = document.querySelector('#despacho')
+                                                    if ($despacho) {
+
+
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: './api-sigop/entrega/add',
+                                                            data:  {idPedido: $("#pedido").val() , Encargado: $("#Encargado").val().toUpperCase() , Destino: $("#Destino").val().toUpperCase(), Receptor: $("#Receptor").val().toUpperCase() },
+                                                            success: function (response) {
+                                                                            var obj = $.parseJSON(response);                                       
+                                                                            console.log("Se registro entrega de pedido")
+                                                                            
+                                                                }
+                                                            });
+
+                                                        
+                                                    }
 
                                                     alert("PEDIDO " + obj.Respuesta[0].Id + ", REGISTRADO"); 
                                                     pase=0;                                            
@@ -522,3 +545,113 @@ function RegistrarPedido(){
     $("#busqueda").css({"display": "none"});
 
  }
+
+
+
+
+ 
+document.addEventListener("DOMContentLoaded", function(){
+
+
+    (async function Load(){
+
+        async function getData(url){
+
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+  
+        }
+  
+        async function postData(url, form){
+  
+              const response = await fetch(url,
+                {
+                  method: "POST",
+                  body: form
+                }
+                );    
+                const data = await response.json();              
+                return data;                          
+        }
+
+
+       // ------------------ Funciones --------------- // 
+
+
+
+       function GruardarDatosEntrega(){
+
+            const data = document.querySelector('form')
+            const form = new FormData(data)
+
+            form.set('Encargado',document.querySelector('#Encargado').value.toUpperCase())
+            form.set('Receptor',document.querySelector('#Receptor').value.toUpperCase())
+            form.set('Destino',document.querySelector('#Destino').value.toUpperCase())
+            
+            for (const key of form.keys()) {            
+                console.log(`${key} -> ${form.get(key)}`)
+            }
+
+            postData('./api-sigop/entrega/add', form)
+
+       }
+        
+
+       // ------------------ Eventos --------------- // 
+
+       const $despacho = document.querySelector('#despacho')
+       
+       $despacho.addEventListener('input', function(){
+
+            if(this.checked){
+                document.querySelector('#panelentrega').style.display = 'block'
+                document.querySelector('#btnRegistrarPedido').disabled = true
+            }else{
+                document.querySelector('#panelentrega').style.display = 'none'
+                document.querySelector('#Encargado').value = ''
+                document.querySelector('#Receptor').value = ''
+                document.querySelector('#Destino').value = ''
+            }
+
+       })
+
+
+       document.querySelector('#cerrardestino').onclick = function(){
+
+        document.querySelector('#panelentrega').style.display = 'none'
+        document.querySelector('#Encargado').value = ''
+        document.querySelector('#Receptor').value = ''
+        document.querySelector('#Destino').value = ''
+        document.querySelector('#despacho').checked = false
+
+        document.querySelector('#btnRegistrarPedido').disabled = false
+
+       }
+
+       document.querySelector('#btnGuardarEntrega').onclick = function(){
+
+        if (confirm('¿Confirma guardar los datos de despacho a domicilio?')) {
+
+            if(document.querySelector('#Encargado').value != '' && document.querySelector('#Receptor').value != '' && document.querySelector('#Destino').value != ''){
+                
+                document.querySelector('#panelentrega').style.display = 'none'
+                document.querySelector('#btnRegistrarPedido').disabled = false
+                alert("Los datos de encargado y destino se guardarón")
+
+            }else{
+                alert("Debe registar los datos de encargado, receptor y destino")
+            }
+            
+        }
+
+            
+       }
+
+
+
+
+    })()
+
+
+})

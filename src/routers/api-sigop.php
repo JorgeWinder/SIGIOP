@@ -622,6 +622,42 @@ and date(mov.FechaMovimiento)>='$FechaInicio' and date(mov.FechaMovimiento)<='$F
 
 
 
+$app->post('/api-sigop/entrega/add', function(Request $request, Response $response){
+ 
+    $idPedido = $request->getParam('idPedido'); 
+    $Encargado = $request->getParam('Encargado');
+    $Destino = $request->getParam('Destino'); 
+    $Receptor = $request->getParam('Receptor'); 
+
+        $sql = "INSERT INTO EntregaPedidos (idPedido, Encargado, Destino, Receptor) VALUES ($idPedido, '$Encargado', '$Destino', '$Receptor')";
+
+    try{
+        // Get DB Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+
+        if($stmt->execute())
+        {
+            $ucod=$db->lastInsertId();
+         
+            echo '{ "Respuesta" : [{ "Id" : "' . $ucod .'" , "insert" : true }]}';
+
+        }
+    
+    } catch(PDOException $e){
+
+            //echo '{ "Respuesta" : [{ "insert" : false }]}';
+            echo '{"error": {"text": '.$e->getMessage().'}}';
+    }
+
+
+});
+
+
+
+
 $app->post('/api-sigop/pedido/add', function(Request $request, Response $response){
 
     $TipoComprobante = $request->getParam('TipoComprobante'); 
@@ -1360,17 +1396,19 @@ $app->get('/api-sigop/pedido/VistaPrint',  function(Request $request, Response $
     $idPedido = $request->getParam('idPedido');
    
    $sql = "SELECT ti.NombreTienda , em.RazonSocial as NombreEmpresa , col.idColaborador, CONCAT(Nombres , ' ' , Apellidos) as NombresCol , cl.RucDnICL , cl.RazonSocial, 
-case 
-when pe.EstadoPedido='P' then 'PENDIENTE' 
-when pe.EstadoPedido='C' then 'CANCELADO' 
-when pe.EstadoPedido='A' then 'ANULADO' 
-end as EstadoPedido,
-dp.idPedido , p.idProducto , 
-p.NombreProducto , dp.Cantidad , dp.PrecioUnit , dp.PrecioTotal , dp.Desct , p.NombreProducto , pe.FechaPedido , cast(pe.Nota as CHAR) as Nota
-FROM detallepedido dp , producto p , pedido pe , cliente cl , colaborador col , empresa em , tienda ti
-where pe.idPedido=dp.idPedido and p.idProducto=dp.idProducto and pe.RucDnICL=cl.RucDnICL and col.idColaborador=pe.idColaborador 
-and em.EmpresaRuc=pe.EmpresaRuc and ti.idTienda=pe.idTienda
-and pe.idPedido=$idPedido";
+   case 
+   when pe.EstadoPedido='P' then 'PENDIENTE' 
+   when pe.EstadoPedido='C' then 'CANCELADO' 
+   when pe.EstadoPedido='A' then 'ANULADO' 
+   end as EstadoPedido,
+   dp.idPedido , p.idProducto , 
+   p.NombreProducto , dp.Cantidad , dp.PrecioUnit , dp.PrecioTotal , dp.Desct , p.NombreProducto , pe.FechaPedido , cast(pe.Nota as CHAR) as Nota,
+   (SELECT Encargado from EntregaPedidos ep where idPedido = pe.idPedido) as Encargado,
+   (SELECT Destino from EntregaPedidos ep where idPedido = pe.idPedido)  AS Destino
+   FROM detallepedido dp , producto p , pedido pe , cliente cl , colaborador col , empresa em , tienda ti 
+   where pe.idPedido=dp.idPedido and p.idProducto=dp.idProducto and pe.RucDnICL=cl.RucDnICL and col.idColaborador=pe.idColaborador
+   and em.EmpresaRuc=pe.EmpresaRuc and ti.idTienda=pe.idTienda 
+   and pe.idPedido=$idPedido";
    
    try{
        
@@ -1399,6 +1437,8 @@ and pe.idPedido=$idPedido";
                 $NombreEmpresa=$row->NombreEmpresa;
                 $FechaPedido=$row->FechaPedido;
                 $Nota=$row->Nota;
+                $Encargado=$row->Encargado;
+                $Destino=$row->Destino;
 
                 if ($row->Desct>0) {                          
 $resultado = $resultado . "<div class='row' style='width: 100%;'><div class='col-xs-1' ' style='font-size: 8pt;'><label>" . $row->Cantidad . "</label></div><div class='col-xs-8' style='font-size: 6pt;'><label>" . $row->NombreProducto . "</label></div><div class='col-xs-2 text-right'><label id='precio" . $conta . "'>" . $row->PrecioTotal . "</label><input type='hidden' id='Desct" . $conta . "' value='". $row->Desct ."'><br><label>-" . $row->Desct . "</label></div></div>"; 
@@ -1417,7 +1457,9 @@ $resultado = $resultado . "<div class='row' style='width: 100%;'><div class='col
             "EstadoPedido" : "' . $EstadoPedido .'" , 
             "NombreEmpresa" : "' . $NombreEmpresa .'" ,
             "FechaPedido" : "' . $FechaPedido .'" ,             
-            "Filas" : ' . $conta .' ,  
+            "Filas" : ' . $conta .' , 
+            "Encargado" : "' . $Encargado .'" ,             
+            "Destino" : "' . $Destino .'" , 
             "Nota" : ' . json_encode($Nota) .' ,  
             "detalle" : "' . $resultado .'" }]}';
             

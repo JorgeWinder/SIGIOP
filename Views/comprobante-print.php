@@ -63,6 +63,9 @@ function ConsultarPedido(idPedido){
                         $('#estado').text(obj.Respuesta[0].EstadoPedido); 
                         $('#empresa').text(obj.Respuesta[0].NombreEmpresa); 
                         $('#Nota').html(obj.Respuesta[0].Nota); 
+                        $('#lblEncargado').html(obj.Respuesta[0].Encargado); 
+                        $('#lblDestino').html(obj.Respuesta[0].Destino); 
+
                         //alert(obj.Respuesta[0].Nota);
                         $("#detallepedido").append(obj.Respuesta[0].detalle.toString());
 
@@ -171,7 +174,7 @@ function ConsultarPedido(idPedido){
 
         <div class="container-fluid">  
             <div class="row" style="width: 100%;">
-                       <div class="col-xs-12"><b>OBSERVACIONES :</b></div>                               
+                       <div class="col-xs-12"><b>OBSERVACIONES </b></div>                               
             </div>
         </div>
 
@@ -181,9 +184,25 @@ function ConsultarPedido(idPedido){
                     <label id='Nota'></label>
                 </div>                   
                </div>
-        </div>    
+        </div>
 
          <br>
+
+         <div class="container-fluid">  
+            <div class="row" style="width: 100%;">
+                       <div class="col-xs-12"><b>ENTREGA DE PEDIDO </b></div>                               
+            </div>
+        </div>
+
+        <div class="container-fluid">                
+               <div class="row" style="width: 100%;">
+                   <div class="col-xs-9" style="font-size: 8pt;border-top: 1px black solid;border-top-style: dashed;">
+                   <br> 
+                    Encargado: <label id='lblEncargado'></label> <br>
+                    Dirección: <label id='lblDestino'></label> <br><br>
+                </div>                   
+               </div>
+        </div>   
 
     </body>
 </html>    
