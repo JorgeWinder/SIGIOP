@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", function(){
                     form.append('idTipoMovimiento', 2)
                     form.set('StockMoviento', element.children[2].querySelector('input').value)
 
-                    alert(form.get('StockMoviento'))
+                    //alert(form.get('StockMoviento'))
 
                     for (const key of form.keys()) {            
                         console.log(`${key} -> ${form.get(key)}`)

@@ -68,9 +68,32 @@
                 
                 if(confirm("¿CONFIRMA REGISTRAR PEDIDO?"))
                 {
-                    // alert("PEDIDO REGISTRADO:\n\n1700001");  'abc'.padStart(10, "0");
-                    
-                        RegistrarPedido();                      
+                    // alert("PEDIDO REGISTRADO:\n\n1700001");  'abc'.padStart(10, "0");    $("#idcliente").val()
+                    if ($("#idcliente").val()!='12345678') {
+                        RegistrarPedido();
+                    }else{
+                        document.querySelector('#panelaccesocv').style.display = 'block'
+                        document.querySelector('#btnRegistrarPedido').disabled = true
+                        
+                        ///-------- VALIDAR ACCESO A clientes varios ----- ///
+
+                        $('#accesocv').keydown(function (e) {
+                                    
+                            if (e.which == 13) {                	
+
+                                if ($('#accesocv').val()==235411) {
+                                    document.querySelector('#panelaccesocv').style.display = 'none'
+                                    RegistrarPedido();      
+                                }else{ alert("EL ACCESO NO VALIDO PARA CLIENTES VARIOS"); }
+
+                            } 
+                
+                        });
+
+
+
+                    }
+                                              
                 }
                                 
             });
@@ -647,6 +670,21 @@ document.addEventListener("DOMContentLoaded", function(){
 
             
        }
+
+
+       // Bloqueo de submit en inputs al presionar enter
+
+       const inputs = document.querySelectorAll("form")
+
+       inputs.forEach(element => {
+           element.addEventListener("keypress",function(e){
+               var keyCode = e.keyCode || e.which;
+               if (keyCode === 13) { 
+                   e.preventDefault();
+                   return false;
+               }
+           })    
+       });
 
 
 

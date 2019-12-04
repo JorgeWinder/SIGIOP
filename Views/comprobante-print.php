@@ -65,6 +65,7 @@ function ConsultarPedido(idPedido){
                         $('#Nota').html(obj.Respuesta[0].Nota); 
                         $('#lblEncargado').html(obj.Respuesta[0].Encargado); 
                         $('#lblDestino').html(obj.Respuesta[0].Destino); 
+                        $('#lblReceptor').html(obj.Respuesta[0].Receptor); 
 
                         //alert(obj.Respuesta[0].Nota);
                         $("#detallepedido").append(obj.Respuesta[0].detalle.toString());
@@ -113,7 +114,7 @@ function ConsultarPedido(idPedido){
             <br>
             SHANDONG TIANXIN TRADING COMPANY S.A.C.
             <br>
-            AV. ISABEL LA CATOLICA NRO. 1100 URB. EL PORVENIR LIMA - LIMA - LA VICTORIA | RUC : 20601871387
+            JIRON LAMPA 1203 LIMA - LIMA - LIMA | RUC : 20601871387
             <br><br>
             <!-- <b>SERIE: -</b> -->
             <br>
@@ -198,7 +199,8 @@ function ConsultarPedido(idPedido){
                <div class="row" style="width: 100%;">
                    <div class="col-xs-9" style="font-size: 8pt;border-top: 1px black solid;border-top-style: dashed;">
                    <br> 
-                    Encargado: <label id='lblEncargado'></label> <br>
+                    Encargado de entrega: <label id='lblEncargado'></label> <br>
+                    Recibe el pedido: <label id='lblReceptor'></label> <br>
                     Dirección: <label id='lblDestino'></label> <br><br>
                 </div>                   
                </div>

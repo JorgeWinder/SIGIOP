@@ -110,7 +110,7 @@ function ConsultarPedido(idPedido){
             <br>
             SHANDONG TIANXIN TRADING COMPANY S.A.C.
             <br>
-            AV. ISABEL LA CATOLICA NRO. 1100 URB. EL PORVENIR LIMA - LIMA - LA VICTORIA | RUC : 20601871387
+            JIRON LAMPA 1203 LIMA - LIMA - LIMA | RUC : 20601871387
             <br><br>
             <!-- <b>SERIE: -</b> -->
             <br>

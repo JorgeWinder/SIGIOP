@@ -126,6 +126,18 @@ and open the template in the editor.
 									</div>
 
 
+									<div id="panelaccesocv" class="container text-right" style="position: fixed;width: 540px;z-index: 100;top: 50px;background: #293a4a;padding-top: 5px;margin-top: 40px;display: none;">
+										<span class="badge badge-info" style="position: relative;top: 0;margin-bottom: 5px;"> <a id="cerrar" href="#" onclick="document.querySelector('#panelaccesocv').style.display = 'none'; document.querySelector('#btnRegistrarPedido').disabled = false;" style="color: white"> X CERRAR</a> </span>
+										<div class="form-group  text-left">
+											<label for="accesocv" style="color: white;">INGRESE CONTRASEÑA PARA CLIENTE VARIOS</label>
+											<input type="password" class="form-control" name="" id="accesocv"><br>
+											<label for="accesocv" style="color: white;margin-top: 20px;">1. Presione la tecla "ENTER" para validar contraseña.</label><br>
+											<label for="accesocv" style="color: white;">2. Si la contraseña es valida, se continuará el proceso registro.</label>
+											<br>											
+										</div>										
+									</div>
+
+
  								</div> 									
 							</div>
 

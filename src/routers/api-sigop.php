@@ -1404,7 +1404,8 @@ $app->get('/api-sigop/pedido/VistaPrint',  function(Request $request, Response $
    dp.idPedido , p.idProducto , 
    p.NombreProducto , dp.Cantidad , dp.PrecioUnit , dp.PrecioTotal , dp.Desct , p.NombreProducto , pe.FechaPedido , cast(pe.Nota as CHAR) as Nota,
    (SELECT Encargado from EntregaPedidos ep where idPedido = pe.idPedido) as Encargado,
-   (SELECT Destino from EntregaPedidos ep where idPedido = pe.idPedido)  AS Destino
+   (SELECT Destino from EntregaPedidos ep where idPedido = pe.idPedido)  AS Destino,
+   (SELECT Receptor from EntregaPedidos ep where idPedido = pe.idPedido)  AS Receptor
    FROM detallepedido dp , producto p , pedido pe , cliente cl , colaborador col , empresa em , tienda ti 
    where pe.idPedido=dp.idPedido and p.idProducto=dp.idProducto and pe.RucDnICL=cl.RucDnICL and col.idColaborador=pe.idColaborador
    and em.EmpresaRuc=pe.EmpresaRuc and ti.idTienda=pe.idTienda 
@@ -1439,6 +1440,7 @@ $app->get('/api-sigop/pedido/VistaPrint',  function(Request $request, Response $
                 $Nota=$row->Nota;
                 $Encargado=$row->Encargado;
                 $Destino=$row->Destino;
+                $Receptor=$row->Receptor;
 
                 if ($row->Desct>0) {                          
 $resultado = $resultado . "<div class='row' style='width: 100%;'><div class='col-xs-1' ' style='font-size: 8pt;'><label>" . $row->Cantidad . "</label></div><div class='col-xs-8' style='font-size: 6pt;'><label>" . $row->NombreProducto . "</label></div><div class='col-xs-2 text-right'><label id='precio" . $conta . "'>" . $row->PrecioTotal . "</label><input type='hidden' id='Desct" . $conta . "' value='". $row->Desct ."'><br><label>-" . $row->Desct . "</label></div></div>"; 
@@ -1460,6 +1462,7 @@ $resultado = $resultado . "<div class='row' style='width: 100%;'><div class='col
             "Filas" : ' . $conta .' , 
             "Encargado" : "' . $Encargado .'" ,             
             "Destino" : "' . $Destino .'" , 
+            "Receptor" : "' . $Receptor .'" , 
             "Nota" : ' . json_encode($Nota) .' ,  
             "detalle" : "' . $resultado .'" }]}';
             
