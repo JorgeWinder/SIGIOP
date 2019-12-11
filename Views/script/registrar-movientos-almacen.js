@@ -172,7 +172,7 @@ function RegistrarMovimientoAlmacen(tipomovimiento, origen, StockMoviento, idPro
                 //alert($("#idtienda").val());
 
                 $("#tablapedido tr").remove();
-                $("#tablapedido").append("<tr><td style='width: 350px;'>PRODUCTO</td><td style='width: 10px;'>STOCK</td><td style='width: 150px;'>MOVIMIENTO</td><td style='width: 50px;'>FECHA MOV.</td><td style='width: 50px;'>TIENDA DESTINO</td>");
+                $("#tablapedido thead").append("<tr><td style='width: 350px;'>PRODUCTO</td><td style='width: 10px;'>STOCK</td><td style='width: 150px;'>MOVIMIENTO</td><td style='width: 50px;'>FECHA MOV.</td><td style='width: 50px;'>TIENDA DESTINO</td><td style='width: 50px;'></td>");
 
                 $.ajax({
                     type: "GET",
@@ -182,10 +182,51 @@ function RegistrarMovimientoAlmacen(tipomovimiento, origen, StockMoviento, idPro
                     success: function (resultado) {                        
                         var obj = $.parseJSON(resultado);
                         //alert(obj);                      
-                        $("#tablapedido").append(obj);                        
+                        $("#tablapedido tbody").append(obj);
+
                     },
                     error: function (resultado) {
                         alert("Error");
+                    },
+                    complete: function(data) {
+                        
+                        const detalle = $('#tablapedido tbody tr');
+
+                        $.each(detalle, function (index, value) {
+
+                            let idmov = $(this).children('td').eq(0).children('input').val()
+                            let fila = $(this)
+
+                            $(this).children('td').eq(5).children('button').eq(0).click( function(){
+
+                                if(confirm('Confirma eliminar movimiento?')){
+                                    //alert(idmov)
+
+                                    $.ajax({
+                                        type: "POST",
+                                        url: './api-sigop/MovimientoAlmacenID/delete',
+                                        data:  {idMovimientoAlmacen: idmov },
+                                        success: function (response) {
+                                                    var obj = $.parseJSON(response);                      
+                                                    obj ? alert("Movimiento eliminado: " + idmov) : alert("HUBO PROBLEMAS AL ELIMINAR EL MOVIMIENTO");
+                                                      
+                                            },
+                                        complete: function(data) {
+                                            fila.remove()
+                                        }
+                                    });
+
+                                }
+
+                               
+                            })
+                        });
+
+                        // detalle.forEach(element => {
+                        //     element.children[5].querySelector('button').addEventListener('click', function(){
+                        //          alert(element.children[0].querySelector('input').value)
+                        //     })
+                        // });
                     }
                 });
 
@@ -215,4 +256,69 @@ function ListarTienda(){
     });
 
 }
+
+
+
+ 
+document.addEventListener("DOMContentLoaded", function(){
+
+
+    (async function Load(){
+
+        async function getData(url){
+
+            const response = await fetch(url);
+            const data = await response.json();
+            return data;
+  
+        }
+  
+        async function postData(url, form){
+  
+              const response = await fetch(url,
+                {
+                  method: "POST",
+                  body: form
+                }
+                );    
+                const data = await response.json();              
+                return data;                          
+        }
+
+
+       // ------------------ Funciones --------------- // 
+
+
+
+
+       
+        
+
+       // ------------------ Eventos --------------- // 
+
+       
+
+       
+
+       // Bloqueo de submit en inputs al presionar enter
+
+       const inputs = document.querySelectorAll("form")
+
+       inputs.forEach(element => {
+           element.addEventListener("keypress",function(e){
+               var keyCode = e.keyCode || e.which;
+               if (keyCode === 13) { 
+                   e.preventDefault();
+                   return false;
+               }
+           })    
+       });
+
+
+
+
+    })()
+
+
+})
 

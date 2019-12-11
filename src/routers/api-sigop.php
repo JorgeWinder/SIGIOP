@@ -517,6 +517,35 @@ $app->post('/api-sigop/MovimientoAlmacenOP/delete', function(Request $request, R
 });
 
 
+$app->post('/api-sigop/MovimientoAlmacenID/delete', function(Request $request, Response $response){
+
+    $idMovimientoAlmacen = $request->getParam('idMovimientoAlmacen');
+
+    $sql = "DELETE FROM movimientoalmacen WHERE idMovimientoAlmacen='$idMovimientoAlmacen'";
+    
+    try{
+        // Get DB Object
+        $db = new db();
+        // Connect
+        $db = $db->connect();
+        $stmt = $db->prepare($sql);
+
+        if($stmt->execute())
+        {
+/*            session_start(); 
+            $_SESSION["pagina"]='/encuesta/pagina-dos';*/
+            echo json_encode(TRUE);
+        }
+    
+    } catch(PDOException $e){
+        //echo '{"error": {"text": '.$e->getMessage().'}';
+        echo json_encode(FALSE);
+    }
+
+
+});
+
+
 $app->get('/api-sigop/MovimientoAlmacen/getMovimientos',  function(Request $request, Response $response) { 
     
     $idProducto = $request->getParam('idProducto');
@@ -527,7 +556,7 @@ FROM movimientoalmacen mov, producto pro , tipomovimiento tm
 where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento and mov.idProducto=$idProducto";
    */
 
-  $sql = "SELECT pro.NombreProducto , mov.StockMoviento,  tm.Descripcion , date(mov.FechaMovimiento) as FechaMovimiento , mov.idPedido , 
+  $sql = "SELECT mov.idMovimientoAlmacen, pro.NombreProducto , mov.StockMoviento,  tm.Descripcion , date(mov.FechaMovimiento) as FechaMovimiento , mov.idPedido , 
   (select NombreTienda from tienda where idTienda=mov.idTiendaDestino) as td
   FROM movimientoalmacen mov, producto pro , tipomovimiento tm 
   where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento and date(mov.FechaMovimiento)>='2019-10-06' and mov.idProducto=$idProducto and mov.idTienda=$idTienda
@@ -547,14 +576,36 @@ where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento
         if(count($CategoriaProducto)>0){            
             
             $resultado="";
+            session_start(); 
             
             foreach ($CategoriaProducto as  $row) {
-                $resultado = $resultado . "<tr>
-    <td><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
+  
+
+                if ($_SESSION["idArea"]==1) {
+                    # code...
+                    $resultado = $resultado . "<tr>
+    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
     <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
     <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
     <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
-    <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td></tr>"; 
+    <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
+    <td><button type='button' class='btn btn-danger'>Eliminar</button></td>
+    </tr>"; 
+
+                }else{
+
+                    $resultado = $resultado . "<tr>
+    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
+    <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
+    <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
+    <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
+    <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
+    <td></td>
+    </tr>"; 
+
+
+                }
+
             }
 
             echo json_encode($resultado);
@@ -862,9 +913,9 @@ $app->post('/api-sigop/detallepedido/add', function(Request $request, Response $
 
 $app->get('/api-sigop/pedido/getVentas',  function(Request $request, Response $response) { 
     
-    $FechaInicio = $request->getParam('FechaInicio');
-    $FechaFin = $request->getParam('FechaFin');
-    $idTienda = $request->getParam('idTienda');
+    $FechaInicio = $request->getQueryParam('FechaInicio');
+    $FechaFin = $request->getQueryParam('FechaFin');
+    $idTienda = $request->getQueryParam('idTienda');
    
 
 $sql = "SELECT p.idPedido , p.Correlativo, p.TipoComprobante , p.FechaPedido , p.RucDnICL , cl.RazonSocial , 
@@ -881,7 +932,7 @@ end as EstadoCobro, (select SUM(Cantidad) from detallepedido where idPedido=p.id
 p.MontoEfectivo , p.MontoDeposito , p.MontoSaldo , sum(dp.PrecioTotal) as PrecioTotal , sum(dp.Desct) as Desct
 FROM pedido p , cliente cl , detallepedido dp , producto pro
 where p.idPedido=dp.idPedido and dp.idProducto=pro.idProducto and cl.RucDnICL=p.RucDnICL and p.idTienda like '%$idTienda%'
-and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin'
+and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin' and p.idPedido in(65305,65339,65341)
 group by p.idPedido , p.RucDnICL , cl.RazonSocial , p.EstadoCobro , p.MontoEfectivo , p.MontoDeposito , p.MontoSaldo, Nomproducto";
    
    try{
@@ -1601,7 +1652,7 @@ $app->get('/api-sigop/area/ListarTienda',  function(Request $request, Response $
     $dni = $request->getParam('dni');    
     $password = $request->getParam('password');
     
-    $sql = "SELECT col.idColaborador , ti.idTienda, ti.NombreTienda, ar.NombreArea , concat(col.Nombres , ' ' , col.Apellidos) as Nombres , col.Correo , col.Pass
+    $sql = "SELECT col.idColaborador , ti.idTienda, ti.NombreTienda, ar.idArea, ar.NombreArea , concat(col.Nombres , ' ' , col.Apellidos) as Nombres , col.Correo , col.Pass
 FROM colaborador col, tienda ti, area  ar where col.idTienda=ti.idTienda and col.idArea=ar.idArea and idColaborador='$dni'";
 
 
@@ -1620,6 +1671,7 @@ FROM colaborador col, tienda ti, area  ar where col.idTienda=ti.idTienda and col
 
            $_SESSION["NombreTienda"]=$colaboradores[0]->NombreTienda;
            $_SESSION["idTienda"]=$colaboradores[0]->idTienda;
+           $_SESSION["idArea"]=$colaboradores[0]->idArea;           
            $_SESSION["NombreArea"]=$colaboradores[0]->NombreArea;           
            $_SESSION['idColaborador']=$colaboradores[0]->idColaborador;
            $_SESSION['Nombres']=$colaboradores[0]->Nombres;           

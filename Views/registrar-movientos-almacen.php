@@ -204,18 +204,12 @@ and open the template in the editor.
                             
                                         <div class="form-group">
                                             <table id="tablapedido" class="table table-striped">
-                                                 <tr><td style="width: 350px;">PRODUCTO</td><td style="width: 10px;">STOCK</td><td style="width: 150px;">MOVIMIENTO</td><td style="width: 50px;">FECHA MOV.</td><td style="width: 50px;">TIENDA DESTINO</td></tr>
-<!--                                                
-<tr><td><label class='control-label'>1</label></td><td><input id='nompro1' type='text' value='PRODUCTO UNO' class='form-control' onkeyup='autocompleta(1)' readonly="true">                                                             
-    </td><td><input id="stock" class="form-control" type="text" value="100" readonly="true"></td><td><input id="preciounit1" class="form-control" value="INGRESO POR COMPRA" readonly="true"></td><td><input id="fechapedido" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="date"></td>
-</tr>
-<tr><td><label class='control-label'>1</label></td><td><input id='nompro1' type='text' value='PRODUCTO UNO' class='form-control' onkeyup='autocompleta(1)' readonly="true">                                                             
-    </td><td><input id="stock" class="form-control" type="text" value="100" readonly="true"></td><td><input id="preciounit1" class="form-control" value="INGRESO POR COMPRA" readonly="true"></td><td><input id="" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="date" value="2018-01-05"></td>
-</tr>    
-<tr><td><label class='control-label'>1</label></td><td><input id='nompro1' type='text' value='PRODUCTO UNO' class='form-control' onkeyup='autocompleta(1)' readonly="true">                                                             
-    </td><td><input id="stock" class="form-control" type="text" value="100" readonly="true"></td><td><input id="preciounit1" class="form-control" value="SALIDA POR DESPACHO" readonly="true"></td><td><input id="" readonly="true" class="form-control" placeholder="" style="width: 100%;" type="date" value="2017-12-22"></td>
-</tr> -->
-
+												 <thead>
+													 <tr><td style="width: 350px;">PRODUCTO</td><td style="width: 10px;">STOCK</td><td style="width: 150px;">MOVIMIENTO</td><td style="width: 50px;">FECHA MOV.</td><td style="width: 50px;">TIENDA DESTINO</td><td style="width: 50px;"></td></tr>
+												</thead>
+												<tbody>
+													
+												</tbody>
                                             </table>
 
 

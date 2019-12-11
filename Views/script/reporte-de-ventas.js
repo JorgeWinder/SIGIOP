@@ -80,7 +80,7 @@
     
 
     $("#detalleventa tr").remove();
-
+    debugger
 			$.ajax({
                 type: "GET",
                 async: false,
@@ -88,7 +88,7 @@
                 data:  { FechaInicio: $('#FechaInicio').val() , FechaFin: $('#FechaFin').val() , idTienda:  $("#cbotienda option:selected").attr("value") },
                 success: function (resultado) {                        
                     var obj = $.parseJSON(resultado);
-
+                    debugger
                     //alert(obj.Respuesta[0].Filas + "DF");
 
                     if(obj.Respuesta[0].Filas>0){
