@@ -96,6 +96,12 @@ $app->get('/registrar-movientos-almacen',  function(){
    include_once 'Views/registrar-movientos-almacen.php';  
 });
 
+
+$app->get('/registrar-movientos-almacenV2',  function(){  
+   include_once 'Views/registrar-movientos-almacenV2.php';  
+});
+
+
 $app->get('/mantenimiento-de-tablas',  function(){  
    include_once 'Views/mantenimiento-de-tablas.php';  
 });

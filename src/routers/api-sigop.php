@@ -90,6 +90,58 @@ $app->post('/api-sigop/producto/busqueda',  function(Request $request, Response 
 });
 
 
+
+$app->get('/api-sigop/producto/getLista',  function(Request $request, Response $response) { 
+    
+    //$NombreProducto = $request->getParam('NombreProducto');
+    $idTienda = $request->getQueryParam('idTienda');
+    $idCategoriaProducto = $request->getQueryParam('idCategoriaProducto');
+    
+    //$sql = "SELECT * , getStockFinal(idProducto) as getStock  FROM Producto where NombreProducto like '%$NombreProducto%'";
+    
+    $sql="select  pro.* , CASE  when getStockTienda(pro.idProducto , $idTienda) is null then 0 else getStockTienda(pro.idProducto , $idTienda) 
+                 end as getStock , cat.NombreCategoria from producto pro , categoriaproducto cat 
+                 where pro.idCategoriaProducto=cat.idCategoriaProducto and pro.idCategoriaProducto=$idCategoriaProducto";
+ 
+    try{
+        
+         // Get DB Object
+         $db = new db();
+         // Connect
+         $db = $db->connect();
+         $stmt = $db->query($sql);
+         $productos = $stmt->fetchAll(PDO::FETCH_OBJ);
+         $db = null;
+         
+         if(count($productos)>0){
+             echo json_encode($productos); 
+         }else{
+             echo json_encode("Objeto vacio"); 
+         }
+
+
+
+        //  if(count($productos)>0){            
+            
+        //     $resultado="{";
+            
+        //     foreach ($productos as  $row) {
+        //         $resultado = $resultado . '"' . $row->NombreProducto . '" : ' . $row->getStock . ' , '; 
+        //     }
+
+        //     $resultado= $resultado . "}";
+
+        //     echo json_encode($resultado);
+        // }
+        
+        
+    } catch(PDOException $e){
+         echo '{"error": {"text": '.$e->getMessage().'}';
+    }
+    
+ });
+
+
 $app->post('/api-sigop/cliente/busqueda',  function(Request $request, Response $response) { 
     
    $RazonSocial = $request->getParam('RazonSocial');
@@ -320,7 +372,7 @@ $app->get('/api-sigop/producto/getTipo',  function(Request $request, Response $r
         
         if(count($CategoriaProducto)>0){            
             
-            $resultado="";
+            $resultado="<option value='' disabled selected>Seleccione Categoría</option>";
             
             foreach ($CategoriaProducto as  $row) {
                 $resultado = $resultado . "<option value='" . $row->idCategoriaProducto . "'>" . $row->NombreCategoria . "</option>"; 
@@ -356,7 +408,7 @@ $app->get('/api-sigop/tipomovimiento/getTipo',  function(Request $request, Respo
         
         if(count($CategoriaProducto)>0){            
             
-            $resultado="";            
+            $resultado="<option value='' disabled selected>Seleccione movimiento</option>";            
             
             session_start(); 
 
@@ -932,7 +984,7 @@ end as EstadoCobro, (select SUM(Cantidad) from detallepedido where idPedido=p.id
 p.MontoEfectivo , p.MontoDeposito , p.MontoSaldo , sum(dp.PrecioTotal) as PrecioTotal , sum(dp.Desct) as Desct
 FROM pedido p , cliente cl , detallepedido dp , producto pro
 where p.idPedido=dp.idPedido and dp.idProducto=pro.idProducto and cl.RucDnICL=p.RucDnICL and p.idTienda like '%$idTienda%'
-and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin' and p.idPedido in(65305,65339,65341)
+and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin' 
 group by p.idPedido , p.RucDnICL , cl.RazonSocial , p.EstadoCobro , p.MontoEfectivo , p.MontoDeposito , p.MontoSaldo, Nomproducto";
    
    try{
@@ -992,8 +1044,7 @@ $app->get('/api-sigop/ranking/vendedor',  function(Request $request, Response $r
     $FechaFin = $request->getParam('FechaFin');
    
 
-$sql = "
-and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin'";
+$sql = "and date(p.FechaPedido) >='$FechaInicio' and date(p.FechaPedido)<='$FechaFin'";
    
 try{
        
@@ -1012,7 +1063,7 @@ try{
         foreach ($CategoriaProducto as  $row) {
 
 
-$resultado = $resultado . "<tr onmouseover='this.style.backgroundColor=\"#fffc6b\"' onmouseout='this.style.backgroundColor=\"\"'><td style='width: 50px;'>" . $row->idProducto . "</td><td style='width: 200px;'>" . $row->NombreProducto . "</td><td style='width: 150px;'>" . $row->NombreCategoria . "</td><td style='width: 100px;'>" . $row->StockTotal . "</td></tr>";
+//$resultado = $resultado . "<tr onmouseover='this.style.backgroundColor=\"#fffc6b\"' onmouseout='this.style.backgroundColor=\"\"'><td style='width: 50px;'>" . $row->idProducto . "</td><td style='width: 200px;'>" . $row->NombreProducto . "</td><td style='width: 150px;'>" . $row->NombreCategoria . "</td><td style='width: 100px;'>" . $row->StockTotal . "</td></tr>";
 
         }
 
@@ -1030,9 +1081,9 @@ $resultado = $resultado . "<tr onmouseover='this.style.backgroundColor=\"#fffc6b
 
 $app->get('/api-sigop/ranking/insumos',  function(Request $request, Response $response) { 
     
-    $FechaInicio = $request->getParam('FechaInicio');
-    $FechaFin = $request->getParam('FechaFin');
-    $idTienda = $request->getParam('idTienda');
+    $FechaInicio = $request->getQueryParam('FechaInicio');
+    $FechaFin = $request->getQueryParam('FechaFin');
+    $idTienda = $request->getQueryParam('idTienda');
    
 
 $sql = "SELECT pro.idProducto , pro.NombreProducto , sum(dpe.Cantidad) as CantVenta FROM pedido pe , producto pro , detallepedido dpe
@@ -1593,7 +1644,7 @@ $app->get('/api-sigop/area/ListarTienda',  function(Request $request, Response $
         
         if(count($CategoriaProducto)>0){            
             
-            $resultado="";
+            $resultado="<option value='' disabled selected>Seleccione tienda de destino</option>";
             
             foreach ($CategoriaProducto as  $row) {
                 $resultado = $resultado . "<option value='" . $row->idTienda . "'> " . $row->NombreTienda . "</option>"; 

@@ -53,7 +53,7 @@ and open the template in the editor.
 			<div class="row">
 				<div class="col-lg-12">
 					<span class="glyphicon glyphicon-duplicate" style="font-size: 25pt;"></span>
-                                        &nbsp&nbsp&nbsp&nbsp<span  style="font-size: 28pt;"> <a href="registrar-movientos-almacen">Registrar movimientos de almacen</a></span>
+                                        &nbsp&nbsp&nbsp&nbsp<span  style="font-size: 28pt;"> <a href="registrar-movientos-almacenV2">Registrar movimientos de almacen</a></span>
 					<hr>
 				</div>
 			</div>
