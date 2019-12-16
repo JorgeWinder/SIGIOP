@@ -74,6 +74,9 @@ document.addEventListener("DOMContentLoaded", function(){
                 data: objdata,
                 onAutocomplete: function(txt) {
                     //alert(txt.split('-')[0].trim());
+                    ListarMovimientos(txt.split('-')[0].trim())
+                    document.querySelector('#idProducto').value = txt.split('-')[0].trim()
+
                 }
             });
 
@@ -85,21 +88,78 @@ document.addEventListener("DOMContentLoaded", function(){
 
         }
 
-    
+        async function ListarMovimientos(producto){
+
+            document.querySelector('#detamov').children[1].innerHTML = ''
+
+            const lista = await getData('./api-sigop/MovimientoAlmacen/getMovimientos?idTienda=' + document.querySelector('#idTienda').value + '&idProducto=' + producto)
+
+            document.querySelector('#detamov').children[1].innerHTML = lista
+            document.querySelector('#detamov').children[1].querySelectorAll('tr').forEach(element => {
+              
+                element.querySelector('button').addEventListener('click', async function(){
+                    //alert(element.querySelector('input').value)
+
+                    const form = new FormData()
+                    form.append('idMovimientoAlmacen', element.querySelector('input').value)
+
+                    if(confirm('Confirma eliminar movimiento?')){
+
+                        await postData('./api-sigop/MovimientoAlmacenID/delete', form)
+                        element.querySelector('input').parentNode.parentNode.remove()
+                        alert('Movimiento eliminado')
+                        //alert(form.get('idMovimientoAlmacen'))
+                    }
+
+
+                })
+
+            });
+            
+
+        }
+
+
+        async function RegistrarMovimiento(form){
+
+            // url: './api-sigop/MovimientoAlmacen/add',
+            // data:  {idTipoMovimiento: tipomovimiento , idTienda: origen , StockMoviento: StockMoviento , idProducto: idProducto , 
+            // idColaborador: idColaborador, GuiaRemision: GuiaRemision, idTiendaDestino: idTiendaDestino, ValorCompra: ValorCompra },
+
+            if(confirm('¿Confirma registar movimiento?')){
+
+                const producto = document.querySelector('#idProducto').value
+
+                form.append('idTipoMovimiento', form.get("tipomovimiento"))
+                form.append('StockMoviento', form.get("stock"))
+                form.append('GuiaRemision', form.get("nrodoc"))
+                form.append('idTiendaDestino', form.get("cbotiendades"))
+                form.append('ValorCompra', form.get("vcompra"))
+        
+                await postData('./api-sigop/MovimientoAlmacen/add',form)
+
+                ListarMovimientos(producto)
+                alert('Movimiento registrado')
+
+
+            }
+
+        }
 
         // ------------------ Eventos -------------------- //
 
-        // const $form = document.querySelector("form")
+        const $form = document.querySelector("form")
 
-        // $form.addEventListener("submit", function(e){
+        $form.addEventListener("submit", function(e){
 
-        //     e.preventDefault()
+            e.preventDefault()
 
-        //     const data = document.querySelector('form')
-        //     const form = new FormData(data)
+            const data = document.querySelector('form')
+            const form = new FormData(data)
+            RegistrarMovimiento(form)
 
             
-        // })    
+        })    
 
         const $categoria = document.querySelector('#CategoriaProducto')
 
@@ -111,11 +171,46 @@ document.addEventListener("DOMContentLoaded", function(){
 
         })
 
+        const $tipomovimiento = document.querySelector('#tipomovimiento')
+
+        $tipomovimiento.addEventListener('change', function(){
+
+            document.querySelector('#vcompra').value = ''
+            document.querySelector('#stock').value = 0
+            
+            if(this.value==6){
+                document.querySelector('#etiquetadoc').textContent = "Número de guia remisión" 
+                document.querySelector('#cbotiendades').disabled = false
+                document.querySelector('#vcompra').disabled = true
+                document.querySelector('#nrodoc').disabled = false
+                
+            }else if(this.value==1){ 
+                document.querySelector('#etiquetadoc').textContent = "Número de documento de compra"            
+                document.querySelector('#vcompra').disabled = false
+                document.querySelector('#nrodoc').disabled = false
+                document.querySelector('#vcompra').value = 0          
+            }else{
+                document.querySelector('#cbotiendades').disabled = true
+                document.querySelector('#etiquetadoc').textContent = "Número de guia / documento de compra"   
+                document.querySelector('#nrodoc').disabled = true
+                document.querySelector('#vcompra').disabled = true
+            }
+
+
+
+        })
+
         //---------------------------------------------//
 
         CargarComboTipoMovimiento()
         ListarTienda()
         ListaCategoriaProducto()
+
+
+        document.querySelector('#producto').value= ''
+        document.querySelector('#cbotiendades').disabled = true
+         
+        producto
 
         //---------------------------------------------//
 

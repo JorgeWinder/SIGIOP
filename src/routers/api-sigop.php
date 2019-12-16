@@ -612,7 +612,8 @@ where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento
   (select NombreTienda from tienda where idTienda=mov.idTiendaDestino) as td
   FROM movimientoalmacen mov, producto pro , tipomovimiento tm 
   where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento and date(mov.FechaMovimiento)>='2019-10-06' and mov.idProducto=$idProducto and mov.idTienda=$idTienda
-  order by mov.FechaMovimiento desc"; 
+  order by mov.FechaMovimiento desc
+  limit 150"; 
 
 
    try{
@@ -635,23 +636,42 @@ where mov.idProducto=pro.idProducto and tm.idTipoMovimiento=mov.idTipoMovimiento
 
                 if ($_SESSION["idArea"]==1) {
                     # code...
-                    $resultado = $resultado . "<tr>
-    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
-    <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
-    <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
-    <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
-    <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
-    <td><button type='button' class='btn btn-danger'>Eliminar</button></td>
+    //                 $resultado = $resultado . "<tr>
+    // <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
+    // <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
+    // <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
+    // <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
+    // <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
+    // <td><button type='button' class='btn btn-danger'>Eliminar</button></td>
+    // </tr>"; 
+
+    $resultado = $resultado . "<tr>
+    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'>" . $row->NombreProducto . "</td>
+    <td>" . $row->StockMoviento . "</td>
+    <td>" . $row->Descripcion . "</td>
+    <td>" . $row->FechaMovimiento . "<input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
+    <td>" . $row->td . "</td>
+    <td><button class='btn waves-effect red lighten-2' type='button' name='action' style='width: 100%;'><i class='material-icons center'>delete</i></button></td>
     </tr>"; 
+
 
                 }else{
 
-                    $resultado = $resultado . "<tr>
-    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
-    <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
-    <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
-    <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
-    <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
+    //                 $resultado = $resultado . "<tr>
+    // <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'><input id='nompro1' type='text' value='" . $row->NombreProducto . "' class='form-control' readonly='true'></td>
+    // <td><input id='stock' class='form-control' type='text' value='" . $row->StockMoviento . "' readonly='true'></td>
+    // <td><input id='preciounit1' class='form-control' style='font-size:8pt;' value='" . $row->Descripcion . "' readonly='true'></td>
+    // <td><input id='fecha' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->FechaMovimiento . "'><input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
+    // <td><input id='destino' readonly='true' class='form-control' placeholder='' style='width: 100%;' type='input' value='" . $row->td . "'></td>
+    // <td></td>
+    // </tr>"; 
+
+    $resultado = $resultado . "<tr>
+    <td><input type='hidden' value='" . $row->idMovimientoAlmacen . "'>" . $row->NombreProducto . "</td>
+    <td>" . $row->StockMoviento . "</td>
+    <td>" . $row->Descripcion . "</td>
+    <td>" . $row->FechaMovimiento . "<input id='idPedido' type='hidden' value='" . $row->idPedido . "'></td>
+    <td>" . $row->td . "</td>
     <td></td>
     </tr>"; 
 

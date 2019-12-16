@@ -30,6 +30,8 @@ and open the template in the editor.
     </head>
     <body> 
 
+        <form>
+
 		<main>
 
         <?php require_once "plantillas/menuV2.html"; ?>	
@@ -59,7 +61,7 @@ and open the template in the editor.
                         </div>
 
                         <div class="input-field input-field-select col s12 l6">
-                            <select id="tipomovimiento" class="browser-default">
+                            <select id="tipomovimiento" name='tipomovimiento' class="browser-default">
                             <option value="" disabled selected>Seleccione movimiento</option>
                             <option value="1">Option 1</option>
                             <option value="2">Option 2</option>
@@ -69,7 +71,7 @@ and open the template in the editor.
                         </div>
 
                         <div class="input-field input-field-select col s12 l6">
-                            <select id="cbotiendades" class="browser-default">
+                            <select id="cbotiendades" name='cbotiendades' class="browser-default">
                             <option value="" disabled selected>Seleccione tienda de destino</option>
                             <option value="1">Option 1</option>
                             <option value="2">Option 2</option>
@@ -80,13 +82,13 @@ and open the template in the editor.
 
                         <div class="input-field col s12 l12">
                                 <!-- <i class="material-icons prefix">person</i> -->
-                                <input type="number" id="nrodoc" class="validate">
-                                <label for="nrodoc">Número de guia / documento de compra</label>
+                                <input type="number" id="nrodoc" name='nrodoc' class="validate">
+                                <label id='etiquetadoc' for="nrodoc">Número de guia / documento de compra</label>
                         </div>
 
 
                         <div class="input-field input-field-select col s12 l12" style='padding-top: 5px;'>
-                            <select id="CategoriaProducto" class="browser-default">
+                            <select id="CategoriaProducto"  name='CategoriaProducto' class="browser-default">
                             <option value="" disabled selected>Seleccione Categoría</option>
                             <option value="1">Option 1</option>
                             <option value="2">Option 2</option>
@@ -99,7 +101,7 @@ and open the template in the editor.
                             <!-- <i class="material-icons prefix">person</i> -->
                             <input type="text" id="producto" class="autocomplete validate">
                             <label for="producto">Nombre de producto</label>
-                            <input type="hidden" name="idProducto">
+                            <input type="hidden" id='idProducto' name="idProducto">
 
                             <div id='divcarga' style="text-align: center; display: none;">
 
@@ -126,19 +128,19 @@ and open the template in the editor.
 
                         <div class="input-field col s12 l6">
                             <!-- <i class="material-icons prefix">person</i> -->
-                            <input type="number" id="vcompra" class="validate">
+                            <input type="number" id="vcompra" name='vcompra' class="validate" value=''>
                             <label for="vcompra">Valor total de compra</label>
                         </div>
 
                         <div class="input-field col s12 l6">
                             <!-- <i class="material-icons prefix">person</i> -->
-                            <input type="number" id="stock" class="validate" value='0'>
+                            <input type="number" id="stock" name='stock' class="validate" value='0'>
                             <label for="stock">Stock en movimiento</label>
                         </div>
 
                         <div class='col s12 l12'>
                             <button class="btn-large waves-effect red lighten-2" type="submit" name="action" style='width: 100%'>Registrar movimiento
-                                <i class="material-icons right">save</i>
+                                <i class="material-icons left">save</i>
                             </button>
                         </div>
 
@@ -151,7 +153,7 @@ and open the template in the editor.
                 <div class='seccion'>
 
                     
-                        <table class="highlight">
+                        <table id='detamov' class="highlight">
                             <thead>
                                 <tr>
                                     <th>PRODUCTO</th>
@@ -159,10 +161,11 @@ and open the template in the editor.
                                     <th>MOVIMIENTO</th>
                                     <th>FECHA MOV.</th>
                                     <th>TIENDA DESTINO</th>
+                                    <th></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
+                                <!-- <tr>
                                     <td>Producto 1</td>
                                     <td>100</td>
                                     <td>Salida por despacho</td>
@@ -182,9 +185,15 @@ and open the template in the editor.
                                     <td>Salida por despacho</td>
                                     <td>15/12/2019</td>
                                     <td>Tienda Lampa</td>
-                                </tr>
+                                </tr> -->
                             </tbody>
                         </table>
+
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
 
                 </div>
 
@@ -194,7 +203,9 @@ and open the template in the editor.
         </div>
         
 
-		</main>
+        </main>
+        
+        </form>
 				
         
     </body>
