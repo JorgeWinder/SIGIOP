@@ -134,7 +134,7 @@ and open the template in the editor.
 
                         <div class="input-field col s12 l6">
                             <!-- <i class="material-icons prefix">person</i> -->
-                            <input type="number" id="stock" name='stock' class="validate" value='0'>
+                            <input type="number" id="stock" name='stock' step="0.01" class="validate" value='0'>
                             <label for="stock">Stock en movimiento</label>
                         </div>
 
