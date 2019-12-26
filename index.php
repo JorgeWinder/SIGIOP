@@ -75,10 +75,6 @@ $app->get('/registrar-pedido',  function(){
    include_once 'Views/registrar-pedido.php';  
 });
 
-$app->get('/registrar-pedido-v2',  function(){  
-    include_once 'Views/registrar-pedido-v2.php';  
- });
-
  $app->get('/registrar-pedido-v3',  function(){  
     include_once 'Views/registrar-pedido-v3.php';  
  });

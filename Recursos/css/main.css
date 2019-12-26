@@ -20,7 +20,6 @@ nav .brand-logo span{
 }
 
 
-
 /* Estilos para controles input */
 
 /* label color */
@@ -28,12 +27,25 @@ nav .brand-logo span{
     color:  rgb(63, 62, 62);
     padding-left: 10px;
     transform: translateY(15px);
+    height: auto !important;
   }
-  
+
+  .input-field.col label {
+      
+    height: auto !important;
+
+  }
+
   /* label focus color */
-  .input-field input[type=text]:focus + label , .input-field input[type=number]:focus + label {
+  .input-field input[type=text]:focus + label , .input-field input[type=number]:focus + label , .input-field input[type=date]:focus + label {
     color:  #ee6b6b !important;
   }
+
+  [type="checkbox"].filled-in:checked+span:not(.lever):after {
+    
+    border: 2px solid #ee6b6b;
+    background-color: #ee6b6b;
+}
 
 
   /* Estilos personalizados de jwinder */
@@ -50,7 +62,7 @@ nav .brand-logo span{
 
   }
 
-  .input-field input[type=text] , .input-field input[type=number] {
+  .input-field input[type=text] , .input-field input[type=number] , .input-field input[type=date] {
     /* border-top-left-radius: 40% */
     border-radius: 8px 8px 0 0;
     height: 54px;
@@ -67,11 +79,17 @@ nav .brand-logo span{
     
 }
 
+
+[type="checkbox"]+span:not(.lever):before, [type="checkbox"]:not(.filled-in)+span:not(.lever):after {
+    width:20px; 
+    height:20px;
+}
+
  /* ------------------------------------- */
 
 
   /* label underline focus color */
-  .input-field input[type=text]:focus , .input-field input[type=number]:focus {
+  .input-field input[type=text]:focus , .input-field input[type=number]:focus , .input-field input[type=date]:focus {
     border-bottom: 1px solid #ee6b6b !important;
     box-shadow: 0 1px 0 0 #ee6b6b !important;
   }
@@ -81,7 +99,7 @@ nav .brand-logo span{
     box-shadow: 0 1px 0 0 #000 !important;
   }
 
-  .input-field input[type=text].valid:focus , .input-field input[type=number].valid:focus {
+  .input-field input[type=text].valid:focus , .input-field input[type=number].valid:focus , .input-field input[type=date].valid:focus {
     border-bottom: 1px solid #ee6b6b !important;
     box-shadow: 0 1px 0 0 #ee6b6b !important;
   }
